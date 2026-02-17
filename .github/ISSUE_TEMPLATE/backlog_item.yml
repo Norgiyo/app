@@ -1,0 +1,76 @@
+name: Backlog Item
+description: Crea un issue estructurado a partir del backlog por fases (F0-F8).
+title: "[F0-00] Titulo del ticket"
+labels:
+  - backlog
+body:
+  - type: dropdown
+    id: phase
+    attributes:
+      label: Fase
+      description: Fase del roadmap.
+      options:
+        - F0
+        - F1
+        - F2
+        - F3
+        - F4
+        - F5
+        - F6
+        - F7
+        - F8
+    validations:
+      required: true
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Prioridad
+      options:
+        - P0
+        - P1
+        - P2
+    validations:
+      required: true
+  - type: input
+    id: dependencies
+    attributes:
+      label: Dependencias
+      description: IDs de tickets separados por coma (ej. F0-01, F0-02).
+      placeholder: F0-01, F0-03
+    validations:
+      required: false
+  - type: textarea
+    id: deliverable
+    attributes:
+      label: Entregable
+      description: Resultado concreto esperado.
+      placeholder: Describe exactamente que debe quedar implementado.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Criterios de aceptacion
+      description: Lista de validaciones para cerrar el ticket.
+      placeholder: |
+        - criterio 1
+        - criterio 2
+        - criterio 3
+    validations:
+      required: true
+  - type: textarea
+    id: technical_notes
+    attributes:
+      label: Notas tecnicas
+      description: Detalles de implementacion, riesgos o decisiones.
+    validations:
+      required: false
+  - type: checkboxes
+    id: done_checklist
+    attributes:
+      label: Definition of Done
+      options:
+        - label: Implementacion completa
+        - label: Pruebas ejecutadas
+        - label: Documentacion actualizada
+        - label: Cumple seguridad y reglas de datos

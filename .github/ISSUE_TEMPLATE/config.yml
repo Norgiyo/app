@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Especificacion del proyecto
+    url: ../blob/main/SPEC.md
+    about: Revisa alcance, arquitectura y criterios de implementacion.
+  - name: Backlog por fases
+    url: ../blob/main/BACKLOG.md
+    about: Revisa tickets, dependencias y prioridades F0-F8.

@@ -1,0 +1,736 @@
+﻿"Title","Body","Labels","Phase","Priority","ID"
+"[F0-01] Estructura Flutter feature-first + MVVM","## Fase
+- F0 - Fundaciones
+
+## Prioridad
+- P0
+
+## Dependencias
+- ninguna
+
+## Entregable
+- estructura base en `app/lib/features` y `app/lib/shared`
+
+## Criterios de aceptacion
+- existe arbol `features/{auth,home,picks,profile,ranking}`
+- existe `shared/{core,data,ui}`
+- no quedan nuevas pantallas en raiz de `app/lib` salvo `main.dart`
+
+## Checklist
+- [ ] Implementacion completa
+- [ ] Pruebas ejecutadas
+- [ ] Documentacion actualizada","backlog,phase:F0,priority:P0","F0","P0","F0-01"
+"[F0-02] Config Firebase local + emuladores","## Fase
+- F0 - Fundaciones
+
+## Prioridad
+- P0
+
+## Dependencias
+- F0-01
+
+## Entregable
+- proyecto configurado para Auth/Firestore/Functions emulator
+
+## Criterios de aceptacion
+- script/documentacion para levantar emuladores
+- app conecta a emuladores en modo dev
+- prueba manual de lectura/escritura local completada
+
+## Checklist
+- [ ] Implementacion completa
+- [ ] Pruebas ejecutadas
+- [ ] Documentacion actualizada","backlog,phase:F0,priority:P0","F0","P0","F0-02"
+"[F0-03] Reglas Firestore base + indices iniciales","## Fase
+- F0 - Fundaciones
+
+## Prioridad
+- P0
+
+## Dependencias
+- F0-02
+
+## Entregable
+- `firestore.rules` y `firestore.indexes.json` operativos
+
+## Criterios de aceptacion
+- reglas en default deny
+- `users`, `matches`, `picks`, `auditLogs` con permisos minimos
+- deploy de rules/indexes exitoso en entorno de prueba
+
+## Checklist
+- [ ] Implementacion completa
+- [ ] Pruebas ejecutadas
+- [ ] Documentacion actualizada","backlog,phase:F0,priority:P0","F0","P0","F0-03"
+"[F0-04] CI minima de calidad","## Fase
+- F0 - Fundaciones
+
+## Prioridad
+- P1
+
+## Dependencias
+- F0-01
+
+## Entregable
+- pipeline con lint y test en PR
+
+## Criterios de aceptacion
+- job de `flutter analyze`
+- job de `flutter test`
+- fallo de quality gate bloquea merge
+
+## Checklist
+- [ ] Implementacion completa
+- [ ] Pruebas ejecutadas
+- [ ] Documentacion actualizada","backlog,phase:F0,priority:P1","F0","P1","F0-04"
+"[F1-01] Auth Google Sign-In en Flutter","## Fase
+- F1 - Auth + Balance
+
+## Prioridad
+- P0
+
+## Dependencias
+- F0-02
+
+## Entregable
+- login Google funcional
+
+## Criterios de aceptacion
+- usuario puede iniciar/cerrar sesion
+- manejo de errores de popup/cancelacion sin crash
+- sesion persiste al reabrir app
+
+## Checklist
+- [ ] Implementacion completa
+- [ ] Pruebas ejecutadas
+- [ ] Documentacion actualizada","backlog,phase:F1,priority:P0","F1","P0","F1-01"
+"[F1-02] Auth Email Link (passwordless)","## Fase
+- F1 - Auth + Balance
+
+## Prioridad
+- P0
+
+## Dependencias
+- F0-02
+
+## Entregable
+- envio y consumo de magic link
+
+## Criterios de aceptacion
+- envio de enlace al correo funciona
+- deep link retorna sesion valida
+- rate limit operativo para abuso basico
+
+## Checklist
+- [ ] Implementacion completa
+- [ ] Pruebas ejecutadas
+- [ ] Documentacion actualizada","backlog,phase:F1,priority:P0","F1","P0","F1-02"
+"[F1-03] Bootstrap de perfil y balance inicial","## Fase
+- F1 - Auth + Balance
+
+## Prioridad
+- P0
+
+## Dependencias
+- F1-01
+
+## Entregable
+- creacion automatica de `users/{uid}` + transaccion `initial`
+
+## Criterios de aceptacion
+- on-create crea `balance` inicial
+- se registra `transactions` tipo `initial`
+- no hay duplicados en reintentos
+
+## Checklist
+- [ ] Implementacion completa
+- [ ] Pruebas ejecutadas
+- [ ] Documentacion actualizada","backlog,phase:F1,priority:P0","F1","P0","F1-03"
+"[F1-04] UI de perfil base + historial de transacciones","## Fase
+- F1 - Auth + Balance
+
+## Prioridad
+- P1
+
+## Dependencias
+- F1-03
+
+## Entregable
+- pantalla con balance y ultimas transacciones paginadas
+
+## Criterios de aceptacion
+- historial paginado con cursor
+- estados de loading/empty/error visibles
+- pruebas widget basicas de render y paginacion
+
+## Checklist
+- [ ] Implementacion completa
+- [ ] Pruebas ejecutadas
+- [ ] Documentacion actualizada","backlog,phase:F1,priority:P1","F1","P1","F1-04"
+"[F2-01] Seed inicial de equipos y jugadores","## Fase
+- F2 - Jugadores + Equipos
+
+## Prioridad
+- P1
+
+## Dependencias
+- F0-03
+
+## Entregable
+- script de seed idempotente
+
+## Criterios de aceptacion
+- carga de `teams` y `players` sin duplicar
+- campos minimos de spec presentes
+- ejecucion repetida no rompe datos
+
+## Checklist
+- [ ] Implementacion completa
+- [ ] Pruebas ejecutadas
+- [ ] Documentacion actualizada","backlog,phase:F2,priority:P1","F2","P1","F2-01"
+"[F2-02] Repositorio de lectura players/teams con cache","## Fase
+- F2 - Jugadores + Equipos
+
+## Prioridad
+- P1
+
+## Dependencias
+- F2-01
+
+## Entregable
+- capa `data` con cache local (Hive)
+
+## Criterios de aceptacion
+- primera carga desde Firestore y siguientes desde cache
+- soporte modo offline para lectura reciente
+- invalidacion de cache definida
+
+## Checklist
+- [ ] Implementacion completa
+- [ ] Pruebas ejecutadas
+- [ ] Documentacion actualizada","backlog,phase:F2,priority:P1","F2","P1","F2-02"
+"[F2-03] Pantalla explorar jugadores","## Fase
+- F2 - Jugadores + Equipos
+
+## Prioridad
+- P1
+
+## Dependencias
+- F2-02
+
+## Entregable
+- listado con cards y filtros basicos
+
+## Criterios de aceptacion
+- muestra nombre, equipo, posicion, odds y badges
+- filtro por equipo activo
+- manejo de loading/empty/error
+
+## Checklist
+- [ ] Implementacion completa
+- [ ] Pruebas ejecutadas
+- [ ] Documentacion actualizada","backlog,phase:F2,priority:P1","F2","P1","F2-03"
+"[F2-04] Tests de repositorio y widget de lista","## Fase
+- F2 - Jugadores + Equipos
+
+## Prioridad
+- P2
+
+## Dependencias
+- F2-03
+
+## Entregable
+- cobertura minima en lectura de jugadores
+
+## Criterios de aceptacion
+- unit test del repositorio
+- widget test de lista y filtros
+- cobertura reportada en CI
+
+## Checklist
+- [ ] Implementacion completa
+- [ ] Pruebas ejecutadas
+- [ ] Documentacion actualizada","backlog,phase:F2,priority:P2","F2","P2","F2-04"
+"[F3-01] Cloud Function `createPick`","## Fase
+- F3 - Picks + Partidos
+
+## Prioridad
+- P0
+
+## Dependencias
+- F1-03, F2-01
+
+## Entregable
+- funcion callable para crear pick seguro
+
+## Criterios de aceptacion
+- valida saldo, limites y estado del partido
+- crea transaccion `bet` atomica con descuento
+- rechaza requests invalidos con codigo controlado
+
+## Checklist
+- [ ] Implementacion completa
+- [ ] Pruebas ejecutadas
+- [ ] Documentacion actualizada","backlog,phase:F3,priority:P0","F3","P0","F3-01"
+"[F3-02] UI de creacion de pick","## Fase
+- F3 - Picks + Partidos
+
+## Prioridad
+- P1
+
+## Dependencias
+- F3-01
+
+## Entregable
+- flujo en app para apostar con validacion local
+
+## Criterios de aceptacion
+- calcula payout potencial en tiempo real
+- bloquea montos invalidos
+- confirma resultado de la operacion al usuario
+
+## Checklist
+- [ ] Implementacion completa
+- [ ] Pruebas ejecutadas
+- [ ] Documentacion actualizada","backlog,phase:F3,priority:P1","F3","P1","F3-02"
+"[F3-03] Job de cierre automatico de picks","## Fase
+- F3 - Picks + Partidos
+
+## Prioridad
+- P1
+
+## Dependencias
+- F3-01
+
+## Entregable
+- scheduler que cierra picks al iniciar match
+
+## Criterios de aceptacion
+- partidos vencidos pasan a estado cerrado para picks
+- idempotencia en ejecuciones repetidas
+- logs de ejecucion disponibles
+
+## Checklist
+- [ ] Implementacion completa
+- [ ] Pruebas ejecutadas
+- [ ] Documentacion actualizada","backlog,phase:F3,priority:P1","F3","P1","F3-03"
+"[F3-04] Pantalla Mis Picks","## Fase
+- F3 - Picks + Partidos
+
+## Prioridad
+- P1
+
+## Dependencias
+- F3-02
+
+## Entregable
+- vista con filtros por estado
+
+## Criterios de aceptacion
+- filtros `pending/won/lost/cancelled`
+- orden por fecha descendente
+- paginacion funcional
+
+## Checklist
+- [ ] Implementacion completa
+- [ ] Pruebas ejecutadas
+- [ ] Documentacion actualizada","backlog,phase:F3,priority:P1","F3","P1","F3-04"
+"[F4-01] Panel operador/admin (web) minimo viable","## Fase
+- F4 - Operador + Payout
+
+## Prioridad
+- P1
+
+## Dependencias
+- F1-01
+
+## Entregable
+- panel con auth por rol y lista de matches
+
+## Criterios de aceptacion
+- operador solo ve acciones permitidas
+- admin ve acciones de publicacion
+- superadmin puede acceder a herramientas criticas
+
+## Checklist
+- [ ] Implementacion completa
+- [ ] Pruebas ejecutadas
+- [ ] Documentacion actualizada","backlog,phase:F4,priority:P1","F4","P1","F4-01"
+"[F4-02] Flujo Draft -> Review -> Publish","## Fase
+- F4 - Operador + Payout
+
+## Prioridad
+- P0
+
+## Dependencias
+- F4-01
+
+## Entregable
+- estados operativos del partido con validaciones
+
+## Criterios de aceptacion
+- stats se guardan como draft
+- admin puede previsualizar impacto
+- publish exige permisos de admin
+
+## Checklist
+- [ ] Implementacion completa
+- [ ] Pruebas ejecutadas
+- [ ] Documentacion actualizada","backlog,phase:F4,priority:P0","F4","P0","F4-02"
+"[F4-03] Cloud Function `publishMatch` optimizada","## Fase
+- F4 - Operador + Payout
+
+## Prioridad
+- P0
+
+## Dependencias
+- F4-02
+
+## Entregable
+- payout agrupado por usuario con idempotencia
+
+## Criterios de aceptacion
+- aplica algoritmo de agregacion por usuario
+- actualiza picks + balances + transactions en batches seguros
+- `match.processed` impide doble pago
+
+## Checklist
+- [ ] Implementacion completa
+- [ ] Pruebas ejecutadas
+- [ ] Documentacion actualizada","backlog,phase:F4,priority:P0","F4","P0","F4-03"
+"[F4-04] Auditoria y notificaciones de resultados","## Fase
+- F4 - Operador + Payout
+
+## Prioridad
+- P1
+
+## Dependencias
+- F4-03
+
+## Entregable
+- `auditLogs` + FCM post-publish
+
+## Criterios de aceptacion
+- audit log registra before/after y actor
+- usuarios afectados reciben notificacion
+- errores de envio quedan trazados
+
+## Checklist
+- [ ] Implementacion completa
+- [ ] Pruebas ejecutadas
+- [ ] Documentacion actualizada","backlog,phase:F4,priority:P1","F4","P1","F4-04"
+"[F5-01] Deep links moviles para Email Link","## Fase
+- F5 - Magic Link + Equipo Favorito
+
+## Prioridad
+- P0
+
+## Dependencias
+- F1-02
+
+## Entregable
+- configuracion de enlaces en Android/iOS
+
+## Criterios de aceptacion
+- abrir enlace autentica en app instalada
+- fallback web/documentado para casos sin app
+- flujo probado en ambos sistemas
+
+## Checklist
+- [ ] Implementacion completa
+- [ ] Pruebas ejecutadas
+- [ ] Documentacion actualizada","backlog,phase:F5,priority:P0","F5","P0","F5-01"
+"[F5-02] Onboarding de equipo favorito","## Fase
+- F5 - Magic Link + Equipo Favorito
+
+## Prioridad
+- P0
+
+## Dependencias
+- F2-01, F1-03
+
+## Entregable
+- seleccion obligatoria para usuario sin equipo
+
+## Criterios de aceptacion
+- lista solo equipos `isActive`
+- guarda `favoriteTeamId` en `users/{uid}`
+- no repite onboarding si ya existe equipo
+
+## Checklist
+- [ ] Implementacion completa
+- [ ] Pruebas ejecutadas
+- [ ] Documentacion actualizada","backlog,phase:F5,priority:P0","F5","P0","F5-02"
+"[F5-03] Reglas de acceso para perfil y team select","## Fase
+- F5 - Magic Link + Equipo Favorito
+
+## Prioridad
+- P1
+
+## Dependencias
+- F5-02, F0-03
+
+## Entregable
+- endurecimiento de rules segun flujo real
+
+## Criterios de aceptacion
+- usuario solo edita su perfil permitido
+- campos sensibles protegidos para backend
+- pruebas en emulator cubren denegaciones
+
+## Checklist
+- [ ] Implementacion completa
+- [ ] Pruebas ejecutadas
+- [ ] Documentacion actualizada","backlog,phase:F5,priority:P1","F5","P1","F5-03"
+"[F6-01] Implementar Escudo Opcion C","## Fase
+- F6 - Escudo + Ranking
+
+## Prioridad
+- P1
+
+## Dependencias
+- F4-03
+
+## Entregable
+- aplicacion de escudo por umbral
+
+## Criterios de aceptacion
+- consume escudo solo cuando corresponde
+- crea transaccion `shield_used` o `team_reward`
+- operacion atomica en un commit
+
+## Checklist
+- [ ] Implementacion completa
+- [ ] Pruebas ejecutadas
+- [ ] Documentacion actualizada","backlog,phase:F6,priority:P1","F6","P1","F6-01"
+"[F6-02] Agregacion semanal `teamWeeks`","## Fase
+- F6 - Escudo + Ranking
+
+## Prioridad
+- P1
+
+## Dependencias
+- F5-02
+
+## Entregable
+- calculo de puntos por equipo/fans activos
+
+## Criterios de aceptacion
+- puntos actualizan por eventos definidos
+- documento semanal por equipo consistente
+- se registra timestamp de actualizacion
+
+## Checklist
+- [ ] Implementacion completa
+- [ ] Pruebas ejecutadas
+- [ ] Documentacion actualizada","backlog,phase:F6,priority:P1","F6","P1","F6-02"
+"[F6-03] Cierre semanal y bonus top 3","## Fase
+- F6 - Escudo + Ranking
+
+## Prioridad
+- P1
+
+## Dependencias
+- F6-02
+
+## Entregable
+- scheduler dominical de cierre
+
+## Criterios de aceptacion
+- calcula top 3 equipos
+- reparte bonus solo a fans activos
+- resetea estado semanal sin perder historico
+
+## Checklist
+- [ ] Implementacion completa
+- [ ] Pruebas ejecutadas
+- [ ] Documentacion actualizada","backlog,phase:F6,priority:P1","F6","P1","F6-03"
+"[F6-04] UI ranking de equipos","## Fase
+- F6 - Escudo + Ranking
+
+## Prioridad
+- P2
+
+## Dependencias
+- F6-03
+
+## Entregable
+- pantalla ranking con contribucion personal
+
+## Criterios de aceptacion
+- tabla completa de equipos
+- indicador de posicion del equipo favorito del usuario
+- refresco sin bloqueos visibles
+
+## Checklist
+- [ ] Implementacion completa
+- [ ] Pruebas ejecutadas
+- [ ] Documentacion actualizada","backlog,phase:F6,priority:P2","F6","P2","F6-04"
+"[F7-01] Perfil tipster y metricas de rendimiento","## Fase
+- F7 - Tipsters + Sorteos
+
+## Prioridad
+- P1
+
+## Dependencias
+- F4-03
+
+## Entregable
+- campos y calculo de `successRate`
+
+## Criterios de aceptacion
+- `successRate` actualizado por jornada
+- `isPublicProfile` configurable por usuario
+- lectura segura de perfil publico
+
+## Checklist
+- [ ] Implementacion completa
+- [ ] Pruebas ejecutadas
+- [ ] Documentacion actualizada","backlog,phase:F7,priority:P1","F7","P1","F7-01"
+"[F7-02] Replicacion con limites anti-cascada","## Fase
+- F7 - Tipsters + Sorteos
+
+## Prioridad
+- P0
+
+## Dependencias
+- F7-01
+
+## Entregable
+- funcion de replicacion con restricciones
+
+## Criterios de aceptacion
+- limite de seguidores aplicado
+- maximo de replica por jornada aplicado
+- cooldown por bajo rendimiento aplicado
+
+## Checklist
+- [ ] Implementacion completa
+- [ ] Pruebas ejecutadas
+- [ ] Documentacion actualizada","backlog,phase:F7,priority:P0","F7","P0","F7-02"
+"[F7-03] Sorteos con participants en subcoleccion","## Fase
+- F7 - Tipsters + Sorteos
+
+## Prioridad
+- P1
+
+## Dependencias
+- F1-03
+
+## Entregable
+- modelo de raffles sin arrays gigantes
+
+## Criterios de aceptacion
+- entries se guardan en `participants/{uid}`
+- contador total consistente
+- sin riesgo de limite 1MB por documento
+
+## Checklist
+- [ ] Implementacion completa
+- [ ] Pruebas ejecutadas
+- [ ] Documentacion actualizada","backlog,phase:F7,priority:P1","F7","P1","F7-03"
+"[F7-04] Funcion `drawRaffle` segura","## Fase
+- F7 - Tipsters + Sorteos
+
+## Prioridad
+- P1
+
+## Dependencias
+- F7-03
+
+## Entregable
+- seleccion de ganador trazable
+
+## Criterios de aceptacion
+- ganador pertenece a participantes validos
+- write final incluye estado y winnerId
+- audit log generado para sorteo
+
+## Checklist
+- [ ] Implementacion completa
+- [ ] Pruebas ejecutadas
+- [ ] Documentacion actualizada","backlog,phase:F7,priority:P1","F7","P1","F7-04"
+"[F8-01] Hardening de seguridad final","## Fase
+- F8 - Polish + Launch
+
+## Prioridad
+- P0
+
+## Dependencias
+- fases F0-F7
+
+## Entregable
+- App Check, rules finales, validaciones cerradas
+
+## Criterios de aceptacion
+- App Check habilitado en produccion
+- rules revisadas y sin permisos abiertos
+- checklist de seguridad firmado
+
+## Checklist
+- [ ] Implementacion completa
+- [ ] Pruebas ejecutadas
+- [ ] Documentacion actualizada","backlog,phase:F8,priority:P0","F8","P0","F8-01"
+"[F8-02] Pruebas de carga y resiliencia","## Fase
+- F8 - Polish + Launch
+
+## Prioridad
+- P0
+
+## Dependencias
+- F4-03
+
+## Entregable
+- reporte de stress test y tuning
+
+## Criterios de aceptacion
+- prueba de picks concurrentes ejecutada
+- publish masivo dentro de SLA definido
+- no hay inconsistencias de balance
+
+## Checklist
+- [ ] Implementacion completa
+- [ ] Pruebas ejecutadas
+- [ ] Documentacion actualizada","backlog,phase:F8,priority:P0","F8","P0","F8-02"
+"[F8-03] Observabilidad y control de costos","## Fase
+- F8 - Polish + Launch
+
+## Prioridad
+- P1
+
+## Dependencias
+- F8-01
+
+## Entregable
+- dashboards, alertas y runbooks
+
+## Criterios de aceptacion
+- alertas de budget 50/80/100 activas
+- alertas de errores criticos activas
+- dashboard KPI minimo operativo
+
+## Checklist
+- [ ] Implementacion completa
+- [ ] Pruebas ejecutadas
+- [ ] Documentacion actualizada","backlog,phase:F8,priority:P1","F8","P1","F8-03"
+"[F8-04] Despliegue local comunitario","## Fase
+- F8 - Polish + Launch
+
+## Prioridad
+- P1
+
+## Dependencias
+- F8-02, F8-03
+
+## Entregable
+- despliegue local estable con operacion comunitaria
+
+## Criterios de aceptacion
+- piloto local con usuarios reales ejecutado
+- bugs criticos de flujo principal cerrados
+- plan operativo local documentado (soporte, monitoreo y rollback)
+
+## Checklist
+- [ ] Implementacion completa
+- [ ] Pruebas ejecutadas
+- [ ] Documentacion actualizada","backlog,phase:F8,priority:P1","F8","P1","F8-04"
