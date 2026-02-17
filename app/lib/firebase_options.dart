@@ -15,6 +15,13 @@ import 'package:flutter/foundation.dart'
 /// );
 /// ```
 class DefaultFirebaseOptions {
+  static const String _androidApiKey = String.fromEnvironment(
+    'FIREBASE_ANDROID_API_KEY',
+  );
+  static const String _iosApiKey = String.fromEnvironment(
+    'FIREBASE_IOS_API_KEY',
+  );
+
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
       throw UnsupportedError(
@@ -49,21 +56,36 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCA1t3K5FGviLOyA4hCARudkjKG-bMeZeM',
-    appId: '1:760682592524:android:581960497f24b10dfd3129',
-    messagingSenderId: '760682592524',
-    projectId: 'cach-reward',
-    storageBucket: 'cach-reward.firebasestorage.app',
-  );
+  static FirebaseOptions get android {
+    if (_androidApiKey.isEmpty) {
+      throw UnsupportedError(
+        'Missing FIREBASE_ANDROID_API_KEY. Run with --dart-define=FIREBASE_ANDROID_API_KEY=...',
+      );
+    }
+    return FirebaseOptions(
+      apiKey: _androidApiKey,
+      appId: '1:760682592524:android:581960497f24b10dfd3129',
+      messagingSenderId: '760682592524',
+      projectId: 'cach-reward',
+      storageBucket: 'cach-reward.firebasestorage.app',
+    );
+  }
 
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBC6cQ35TXy2p7PdCJezfyJTnegra72JAY',
-    appId: '1:760682592524:ios:2bef8de9c777f0c2fd3129',
-    messagingSenderId: '760682592524',
-    projectId: 'cach-reward',
-    storageBucket: 'cach-reward.firebasestorage.app',
-    iosClientId: '760682592524-ckooulhtgc0e8dr9t5dkmd7155atjjqi.apps.googleusercontent.com',
-    iosBundleId: 'com.example.app',
-  );
+  static FirebaseOptions get ios {
+    if (_iosApiKey.isEmpty) {
+      throw UnsupportedError(
+        'Missing FIREBASE_IOS_API_KEY. Run with --dart-define=FIREBASE_IOS_API_KEY=...',
+      );
+    }
+    return FirebaseOptions(
+      apiKey: _iosApiKey,
+      appId: '1:760682592524:ios:2bef8de9c777f0c2fd3129',
+      messagingSenderId: '760682592524',
+      projectId: 'cach-reward',
+      storageBucket: 'cach-reward.firebasestorage.app',
+      iosClientId:
+          '760682592524-ckooulhtgc0e8dr9t5dkmd7155atjjqi.apps.googleusercontent.com',
+      iosBundleId: 'com.example.app',
+    );
+  }
 }

@@ -1,2 +1,4 @@
 .agents/
 firestore-debug.log
+app/android/app/google-services.json
+app/ios/Runner/GoogleService-Info.plist
