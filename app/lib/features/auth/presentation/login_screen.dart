@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import '../data/magic_link_signin_handler.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -20,9 +21,9 @@ class _LoginScreenState extends State<LoginScreen> {
     final email = _email.text.trim();
 
     if (email.isEmpty || !email.contains('@')) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Pon un correo valido.')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Pon un correo valido.')));
       return;
     }
 
@@ -41,12 +42,11 @@ class _LoginScreenState extends State<LoginScreen> {
         email: email,
         actionCodeSettings: actionCodeSettings,
       );
+      await MagicLinkSignInHandler.savePendingEmail(email);
 
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Te enviamos un enlace de acceso a $email.'),
-        ),
+        SnackBar(content: Text('Te enviamos un enlace de acceso a $email.')),
       );
     } on FirebaseAuthException catch (e) {
       if (!mounted) return;
@@ -98,5 +98,3 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
-
-
