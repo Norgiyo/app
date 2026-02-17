@@ -8,7 +8,10 @@ void main() {
 
     expect(find.text('Entrar'), findsOneWidget);
     expect(find.text('Correo'), findsOneWidget);
-    expect(find.text('Contrasena (temporal)'), findsOneWidget);
-    expect(find.text('Entrar / Crear cuenta'), findsOneWidget);
+    expect(find.text('Enviar Magic Link'), findsOneWidget);
+    expect(
+      find.text('Te enviaremos un enlace de acceso sin contrasena.'),
+      findsOneWidget,
+    );
   });
 }
