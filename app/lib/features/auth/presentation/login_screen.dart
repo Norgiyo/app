@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../../profile/presentation/team_select_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -11,54 +10,59 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _email = TextEditingController();
-  final _pass = TextEditingController();
   bool _loading = false;
+  static const _magicLinkUrl = String.fromEnvironment(
+    'MAGIC_LINK_URL',
+    defaultValue: 'https://cach-reward.firebaseapp.com/finishSignIn',
+  );
 
-  Future<void> _loginOrRegister() async {
+  Future<void> _sendMagicLink() async {
     final email = _email.text.trim();
-    final pass = _pass.text;
 
-    if (email.isEmpty || pass.length < 6) {
+    if (email.isEmpty || !email.contains('@')) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Pon correo y contrasena (min 6).')),
+        const SnackBar(content: Text('Pon un correo valido.')),
       );
       return;
     }
 
     setState(() => _loading = true);
     try {
-      // intenta login
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
+      final actionCodeSettings = ActionCodeSettings(
+        url: '$_magicLinkUrl?email=${Uri.encodeQueryComponent(email)}',
+        handleCodeInApp: true,
+        androidPackageName: 'com.example.app',
+        androidInstallApp: true,
+        androidMinimumVersion: '1',
+        iOSBundleId: 'com.example.app',
+      );
+
+      await FirebaseAuth.instance.sendSignInLinkToEmail(
         email: email,
-        password: pass,
+        actionCodeSettings: actionCodeSettings,
+      );
+
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Te enviamos un enlace de acceso a $email.'),
+        ),
       );
     } on FirebaseAuthException catch (e) {
-      // si no existe, lo registramos
-      if (e.code == 'user-not-found') {
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: email,
-          password: pass,
-        );
-      } else if (e.code == 'wrong-password') {
-        rethrow;
-      } else {
-        rethrow;
-      }
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('No se pudo enviar el enlace: ${e.code}')),
+      );
     } finally {
-      setState(() => _loading = false);
+      if (mounted) {
+        setState(() => _loading = false);
+      }
     }
-
-    if (!mounted) return;
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (_) => const TeamSelectScreen()),
-    );
   }
 
   @override
   void dispose() {
     _email.dispose();
-    _pass.dispose();
     super.dispose();
   }
 
@@ -75,23 +79,17 @@ class _LoginScreenState extends State<LoginScreen> {
               keyboardType: TextInputType.emailAddress,
               decoration: const InputDecoration(labelText: 'Correo'),
             ),
-            const SizedBox(height: 12),
-            TextField(
-              controller: _pass,
-              obscureText: true,
-              decoration: const InputDecoration(labelText: 'Contrasena (temporal)'),
-            ),
             const SizedBox(height: 16),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: _loading ? null : _loginOrRegister,
-                child: Text(_loading ? '...' : 'Entrar / Crear cuenta'),
+                onPressed: _loading ? null : _sendMagicLink,
+                child: Text(_loading ? 'Enviando...' : 'Enviar Magic Link'),
               ),
             ),
             const SizedBox(height: 8),
             const Text(
-              'Luego cambiamos esto a Magic Link (solo correo, sin password).',
+              'Te enviaremos un enlace de acceso sin contrasena.',
               textAlign: TextAlign.center,
             ),
           ],
