@@ -2,11 +2,12 @@ import 'dart:async';
 
 import 'package:app_links/app_links.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
 import 'features/auth/data/magic_link_signin_handler.dart';
 import 'firebase_options.dart';
 import 'features/auth/presentation/login_screen.dart';
+import 'features/profile/data/user_profile_repository.dart';
 import 'features/profile/presentation/team_select_screen.dart';
 
 Future<void> main() async {
@@ -26,12 +27,15 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final AppLinks _appLinks = AppLinks();
+  final UserProfileRepository _userProfileRepository = UserProfileRepository();
   StreamSubscription<Uri>? _linksSub;
+  StreamSubscription<User?>? _authSub;
 
   @override
   void initState() {
     super.initState();
     _startMagicLinkListener();
+    _startAuthProfileSync();
   }
 
   Future<void> _startMagicLinkListener() async {
@@ -51,9 +55,21 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void _startAuthProfileSync() {
+    _authSub = FirebaseAuth.instance.authStateChanges().listen((user) async {
+      if (user == null) return;
+      try {
+        await _userProfileRepository.ensureUserProfile(user);
+      } catch (_) {
+        // Ignore profile bootstrap errors to avoid blocking login UI.
+      }
+    });
+  }
+
   @override
   void dispose() {
     _linksSub?.cancel();
+    _authSub?.cancel();
     super.dispose();
   }
 
